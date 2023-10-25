@@ -7,10 +7,10 @@ namespace CodingAssessment.Refactor
 {
     public class BirthingUnit
     {
-        /// <summary>
-        /// MaxItemsToRetrieve
-        /// </summary>
         private List<People> _people;
+        private const int MINIMUM_AGE = 18;
+        private const int MAXIMUM_AGE = 85;
+        private const int DAYS_IN_A_YEAR = 365;
 
         public BirthingUnit()
         {
@@ -32,14 +32,15 @@ namespace CodingAssessment.Refactor
                     // Creates a random Name
                     string name = string.Empty;
                     var random = new Random();
-                    if (random.Next(0, 1) == 0) {
+                    if (random.Next(0, 1) == 0)
+                    {
                         name = "Bob";
                     }
-                    else {
+                    else
+                    {
                         name = "Betty";
                     }
-                    // Adds new people to the list
-                    _people.Add(new People(name, DateTime.UtcNow.Subtract(new TimeSpan(random.Next(18, 85) * 356, 0, 0, 0))));
+                    _people.Add(CreatePerson(name, random));
                 }
                 catch (Exception e)
                 {
@@ -48,6 +49,17 @@ namespace CodingAssessment.Refactor
                 }
             }
             return _people;
+        }
+
+        /// <summary>
+        /// Create
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="random"></param>
+        /// <returns></returns>
+        public People CreatePerson(string name, Random random)
+        {
+            return new People(name, DateTime.UtcNow.Subtract(new TimeSpan(random.Next(MINIMUM_AGE, MAXIMUM_AGE) * DAYS_IN_A_YEAR, 0, 0, 0)));
         }
 
         private IEnumerable<People> GetBobs(bool olderThan30)
