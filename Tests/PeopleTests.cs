@@ -16,17 +16,17 @@ namespace Tests
         }
 
         [Fact]
-        public void GetPeople_ReturnsListOfPeople()
+        public void GeneratePeople_ReturnsListOfPeople()
         {
-            var result = birthingUnit.GetPeople(5);
+            var result = birthingUnit.GeneratePeople(5);
             Assert.IsType<List<People>>(result);
             Assert.Equal(5, result.Count);
         }
 
         [Fact]
-        public void GetPeople_ReturnsPeopleWithValidAges()
+        public void GeneratePeople_ReturnsPeopleWithValidAges()
         {
-            var result = birthingUnit.GetPeople(5);
+            var result = birthingUnit.GeneratePeople(5);
             foreach (var person in result)
             {
                 Assert.InRange(person.Age, 18, 85);

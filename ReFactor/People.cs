@@ -24,6 +24,8 @@ namespace ReFactor
             }
         }
 
+        #region Constructors
+
         public People(string name) : this(name, Under16.Date)
         {
         }
@@ -33,5 +35,7 @@ namespace ReFactor
             Name = name;
             DOB = dob;
         }
+
+        #endregion
     }
 }

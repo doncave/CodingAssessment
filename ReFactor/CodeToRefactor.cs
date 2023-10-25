@@ -22,7 +22,7 @@ namespace CodingAssessment.Refactor
         /// </summary>
         /// <param name="j"></param>
         /// <returns>List<object></returns>
-        public List<People> GetPeople(int i)
+        public List<People> GeneratePeople(int i)
         {
             for (int j = 0; j < i; j++)
             {
