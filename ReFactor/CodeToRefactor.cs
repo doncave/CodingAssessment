@@ -26,7 +26,7 @@ namespace CodingAssessment.Refactor
             {
                 try
                 {
-                    string name = CreateRandomPersonName();
+                    string name = GenerateRandomPersonName();
                     _people.Add(CreatePerson(name));
                 }
                 catch (Exception e)
@@ -79,7 +79,7 @@ namespace CodingAssessment.Refactor
         /// Create a random person name
         /// </summary>
         /// <returns></returns>
-        private string CreateRandomPersonName()
+        private string GenerateRandomPersonName()
         {
             // Creates a random Name
             string name;
