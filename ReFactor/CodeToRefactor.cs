@@ -7,15 +7,12 @@ namespace CodingAssessment.Refactor
 {
     public class BirthingUnit
     {
-        private List<Person> _people;
+        private List<Person> _people = new();
         private const int MINIMUM_AGE = 18;
         private const int MAXIMUM_AGE = 85;
         private const int DAYS_IN_A_YEAR = 365;
+        private Random random = new();
 
-        public BirthingUnit()
-        {
-            _people = new List<Person>();
-        }
 
         /// <summary>
         /// Generates people randomly
@@ -29,18 +26,8 @@ namespace CodingAssessment.Refactor
             {
                 try
                 {
-                    // Creates a random Name
-                    string name = string.Empty;
-                    var random = new Random();
-                    if (random.Next(0, 1) == 0)
-                    {
-                        name = "Bob";
-                    }
-                    else
-                    {
-                        name = "Betty";
-                    }
-                    _people.Add(CreatePerson(name, random));
+                    string name = CreateRandomPersonName();
+                    _people.Add(CreatePerson(name));
                 }
                 catch (Exception e)
                 {
@@ -57,7 +44,7 @@ namespace CodingAssessment.Refactor
         /// <param name="name"></param>
         /// <param name="random"></param>
         /// <returns></returns>
-        public Person CreatePerson(string name, Random random)
+        public Person CreatePerson(string name)
         {
             return new Person(name, DateTime.UtcNow.Subtract(new TimeSpan(random.Next(MINIMUM_AGE, MAXIMUM_AGE) * DAYS_IN_A_YEAR, 0, 0, 0)));
         }
@@ -85,5 +72,30 @@ namespace CodingAssessment.Refactor
 
             return p.Name + " " + lastName;
         }
+
+        #region Private Methods
+
+        /// <summary>
+        /// Create a random person name
+        /// </summary>
+        /// <returns></returns>
+        private string CreateRandomPersonName()
+        {
+            // Creates a random Name
+            string name;
+            var random = new Random();
+            if (random.Next(0, 1) == 0)
+            {
+                name = "Bob";
+            }
+            else
+            {
+                name = "Betty";
+            }
+
+            return name;
+        }
+
+        #endregion
     }
 }
