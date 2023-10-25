@@ -7,14 +7,14 @@ namespace CodingAssessment.Refactor
 {
     public class BirthingUnit
     {
-        private List<People> _people;
+        private List<Person> _people;
         private const int MINIMUM_AGE = 18;
         private const int MAXIMUM_AGE = 85;
         private const int DAYS_IN_A_YEAR = 365;
 
         public BirthingUnit()
         {
-            _people = new List<People>();
+            _people = new List<Person>();
         }
 
         /// <summary>
@@ -23,7 +23,7 @@ namespace CodingAssessment.Refactor
         /// <param name="noOfPeopleToBeCreated"></param>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
-        public List<People> GeneratePeople(int noOfPeopleToBeCreated)
+        public List<Person> GeneratePeople(int noOfPeopleToBeCreated)
         {
             for (int j = 0; j < noOfPeopleToBeCreated; j++)
             {
@@ -57,17 +57,24 @@ namespace CodingAssessment.Refactor
         /// <param name="name"></param>
         /// <param name="random"></param>
         /// <returns></returns>
-        public People CreatePerson(string name, Random random)
+        public Person CreatePerson(string name, Random random)
         {
-            return new People(name, DateTime.UtcNow.Subtract(new TimeSpan(random.Next(MINIMUM_AGE, MAXIMUM_AGE) * DAYS_IN_A_YEAR, 0, 0, 0)));
+            return new Person(name, DateTime.UtcNow.Subtract(new TimeSpan(random.Next(MINIMUM_AGE, MAXIMUM_AGE) * DAYS_IN_A_YEAR, 0, 0, 0)));
         }
 
-        private IEnumerable<People> GetBobs(bool olderThan30)
+        /// <summary>
+        /// Get people with specific name ex. "Bob" either older than 30 or not 
+        /// </summary>
+        /// <param name="olderThan30"></param>
+        /// <returns></returns>
+        public IEnumerable<Person> GetSpecificPerson(string name, bool olderThan30)
         {
-            return olderThan30 ? _people.Where(x => x.Name == "Bob" && x.DOB >= DateTime.Now.Subtract(new TimeSpan(30 * 356, 0, 0, 0))) : _people.Where(x => x.Name == "Bob");
+            return olderThan30 
+                ? _people.Where(x => x.Name == name && x.DOB >= DateTime.Now.Subtract(new TimeSpan(30 * DAYS_IN_A_YEAR, 0, 0, 0))) 
+                : _people.Where(x => x.Name == name);
         }
 
-        public string GetMarried(People p, string lastName)
+        public string GetMarried(Person p, string lastName)
         {
             if (lastName.Contains("test"))
                 return p.Name;

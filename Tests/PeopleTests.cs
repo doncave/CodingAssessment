@@ -19,7 +19,7 @@ namespace Tests
         public void GeneratePeople_ReturnsListOfPeople()
         {
             var result = birthingUnit.GeneratePeople(5);
-            Assert.IsType<List<People>>(result);
+            Assert.IsType<List<Person>>(result);
             Assert.Equal(5, result.Count);
         }
 
