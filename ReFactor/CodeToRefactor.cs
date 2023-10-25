@@ -18,17 +18,18 @@ namespace CodingAssessment.Refactor
         }
 
         /// <summary>
-        /// GetPeoples
+        /// Generates people randomly
         /// </summary>
-        /// <param name="j"></param>
-        /// <returns>List<object></returns>
-        public List<People> GeneratePeople(int i)
+        /// <param name="noOfPeopleToBeCreated"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
+        public List<People> GeneratePeople(int noOfPeopleToBeCreated)
         {
-            for (int j = 0; j < i; j++)
+            for (int j = 0; j < noOfPeopleToBeCreated; j++)
             {
                 try
                 {
-                    // Creates a dandon Name
+                    // Creates a random Name
                     string name = string.Empty;
                     var random = new Random();
                     if (random.Next(0, 1) == 0) {
@@ -42,8 +43,8 @@ namespace CodingAssessment.Refactor
                 }
                 catch (Exception e)
                 {
-                    // Dont think this should ever happen
-                    throw new Exception("Something failed in user creation");
+                    // Log the error in the console or use ILogger or maybe log it in Azure Appinsights or AWS Cloudwatch
+                    Console.WriteLine($"Something failed in user creation: {e.Message}");
                 }
             }
             return _people;
