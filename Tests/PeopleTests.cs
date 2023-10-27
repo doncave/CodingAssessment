@@ -13,18 +13,21 @@ namespace Tests
             birthingUnit = new BirthingUnit();
         }
 
-        [Fact]
-        public void GeneratePeople_ReturnsListOfPeople()
+        [Theory]
+        [InlineData(5, 5)]
+        [InlineData(50, 50)]
+        [InlineData(100, 100)]
+        public void GeneratePeople_ReturnsListOfPeople(int noOfPeopleToBeCreated, int expectedResult)
         {
-            var result = birthingUnit.GeneratePeople(5);
+            var result = birthingUnit.GeneratePeople(noOfPeopleToBeCreated);
             Assert.IsType<List<Person>>(result);
-            Assert.Equal(5, result.Count);
+            Assert.Equal(expectedResult, result.Count);
         }
 
         [Fact]
         public void GeneratePeople_ReturnsPeopleWithValidAges()
         {
-            var result = birthingUnit.GeneratePeople(5);
+            var result = birthingUnit.GeneratePeople(100000);
             foreach (var person in result)
             {
                 Assert.InRange(person.Age, 18, 85);
@@ -41,6 +44,12 @@ namespace Tests
             Assert.NotNull(result);
             Assert.All(result, person => Assert.True(person.FirstName == "Bob"));
             Assert.All(result, person => Assert.True(person.Age >= 30));
+        }
+
+        [Fact]
+        public void GetMarried_ReturnTheFullNameIfMarried()
+        {
+
         }
     }
 }
