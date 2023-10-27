@@ -72,6 +72,15 @@ namespace Tests
             }
         }
 
+        [Fact]
+        public void GetMarried_ValidateIfTestConditionIsWorking()
+        {
+            var person = new Person("Mike", "Test");
+            string result = birthingUnit.GetMarried(person);
+
+            Assert.Equal(result, person.FirstName);
+        }
+
         #region Private Methods
 
         private int GetFullNameLength(params string[] strings)
