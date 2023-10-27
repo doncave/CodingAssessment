@@ -82,6 +82,11 @@ namespace CodingAssessment.Refactor
         /// <returns></returns>
         public string GetMarried(Person person)
         {
+            if (person == null)
+            {
+                return string.Empty;
+            }
+
             if (person.LastName.ToUpper().Contains("TEST"))
             {
                 return person.FirstName;

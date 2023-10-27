@@ -58,14 +58,7 @@ namespace Tests
             foreach (var person in people)
             {
                 int getFullNameLength = GetFullNameLength(person.FirstName, person.LastName);
-                if (getFullNameLength > 10)
-                {
-                    expectedReturnValue = $"{person.FirstName} {person.LastName}";
-                }
-                else
-                {
-                    expectedReturnValue = "";
-                }
+                expectedReturnValue = getFullNameLength > 10 ? $"{person.FirstName} {person.LastName}" : "";
 
                 string result = birthingUnit.GetMarried(person);
                 Assert.Equal(expectedReturnValue, result);
@@ -79,6 +72,13 @@ namespace Tests
             string result = birthingUnit.GetMarried(person);
 
             Assert.Equal(result, person.FirstName);
+        }
+
+        [Fact]
+        public void GetMarried_NullCheck()
+        {
+            string result = birthingUnit.GetMarried(null);
+            Assert.Equal("", result);
         }
 
         #region Private Methods
