@@ -12,7 +12,6 @@ namespace CodingAssessment.Refactor
         private const int DAYS_IN_A_YEAR = 365;
         private Random random = new();
 
-
         /// <summary>
         /// Generates people randomly
         /// </summary>
@@ -93,17 +92,11 @@ namespace CodingAssessment.Refactor
         /// <returns></returns>
         private string GenerateRandomPersonName()
         {
-            // Creates a random name
-            string name;
-            var random = new Random();
-            if (random.Next(0, 1) == 0)
-            {
-                name = "Bob";
-            }
-            else
-            {
-                name = "Betty";
-            }
+            string[] maleNames = new string[] { "Alucard", "Leon", "Dave", "Don", "Bob" };
+            string[] femaleNames = new string[] { "Bella", "Chien", "Catriona", "Heart", "Betty" };
+            List<string> allNames = maleNames.Concat(femaleNames).ToList();
+
+            string name = allNames[random.Next(0, allNames.Count - 1)];
 
             return name;
         }
