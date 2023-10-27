@@ -34,7 +34,7 @@ namespace Tests
         [Fact]
         public void GetSpecificPerson_ReturnWhoseNameIsBobAndOlderThan30()
         {
-            var people = birthingUnit.GeneratePeople(10);
+            var people = birthingUnit.GeneratePeople(1000);
             var bobs = birthingUnit.GetPeopleWithSpecificName(people, "Bob");
             var result = birthingUnit.GetPeopleOlderThan(bobs, 30);
 

@@ -27,13 +27,14 @@ namespace ReFactor
 
         #region Constructors
 
-        public Person(string firstName) : this(firstName, Under16.Date)
+        public Person(string firstName, string lastName) : this(firstName, lastName, Under16.Date)
         {
         }
 
-        public Person(string firstName, DateTime dob)
+        public Person(string firstName, string lastName, DateTime dob)
         {
             FirstName = firstName;
+            LastName = lastName;
             DOB = dob;
         }
 
