@@ -9,7 +9,6 @@ namespace CodingAssessment.Refactor
     {
         private const int MINIMUM_AGE = 18;
         private const int MAXIMUM_AGE = 85;
-        private const int DAYS_IN_A_YEAR = 365;
         private const int NAME_LIMIT = 10;
         private Random random = new();
 

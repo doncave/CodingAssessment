@@ -1,5 +1,6 @@
 using CodingAssessment.Refactor;
 using ReFactor;
+using System.Text;
 using Xunit;
 
 namespace Tests
@@ -34,22 +35,56 @@ namespace Tests
             }
         }
 
-        [Fact]
-        public void GetSpecificPerson_ReturnWhoseNameIsBobAndOlderThan30()
+        [Theory]
+        [InlineData("Bob", 30)]
+        [InlineData("Don", 43)]
+        [InlineData("Heart", 38)]
+        public void GetSpecificPerson_ReturnASpecificNameAndAge(string name, int age)
         {
             var people = birthingUnit.GeneratePeople(1000);
-            var bobs = birthingUnit.GetPeopleWithSpecificName(people, "Bob");
-            var result = birthingUnit.GetPeopleOlderThan(bobs, 30);
+            var bobs = birthingUnit.GetPeopleWithSpecificName(people, name);
+            var result = birthingUnit.GetPeopleOlderThan(bobs, age);
 
             Assert.NotNull(result);
-            Assert.All(result, person => Assert.True(person.FirstName == "Bob"));
-            Assert.All(result, person => Assert.True(person.Age >= 30));
+            Assert.All(result, person => Assert.True(person.FirstName == name));
+            Assert.All(result, person => Assert.True(person.Age >= age));
         }
 
         [Fact]
         public void GetMarried_ReturnTheFullNameIfMarried()
         {
+            string expectedReturnValue; 
+            var people = birthingUnit.GeneratePeople(1000);
+            foreach (var person in people)
+            {
+                int getFullNameLength = GetFullNameLength(person.FirstName, person.LastName);
+                if (getFullNameLength > 10)
+                {
+                    expectedReturnValue = $"{person.FirstName} {person.LastName}";
+                }
+                else
+                {
+                    expectedReturnValue = "";
+                }
 
+                string result = birthingUnit.GetMarried(person);
+                Assert.Equal(expectedReturnValue, result);
+            }
         }
+
+        #region Private Methods
+
+        private int GetFullNameLength(params string[] strings)
+        {
+            var fullName = new StringBuilder();
+            for (int i = 0; i < strings.Length; i++)
+            {
+                fullName.Append($"{strings[i]} ");
+            }
+
+            return fullName.ToString().Trim().Length;
+        }
+
+        #endregion
     }
 }
