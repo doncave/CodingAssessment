@@ -1,6 +1,4 @@
-using System;
 using CodingAssessment.Refactor;
-using FluentAssertions;
 using ReFactor;
 using Xunit;
 
@@ -31,6 +29,18 @@ namespace Tests
             {
                 Assert.InRange(person.Age, 18, 85);
             }
+        }
+
+        [Fact]
+        public void GetSpecificPerson_ReturnWhoseNameIsBobAndOlderThan30()
+        {
+            var people = birthingUnit.GeneratePeople(10);
+            var bobs = birthingUnit.GetPeopleWithSpecificName(people, "Bob");
+            var result = birthingUnit.GetPeopleOlderThan(bobs, 30);
+
+            Assert.NotNull(result);
+            Assert.All(result, person => Assert.True(person.Name == "Bob"));
+            Assert.All(result, person => Assert.True(person.Age >= 30));
         }
     }
 }
