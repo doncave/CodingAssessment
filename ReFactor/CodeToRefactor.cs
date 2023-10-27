@@ -9,7 +9,7 @@ namespace CodingAssessment.Refactor
     {
         private const int MINIMUM_AGE = 18;
         private const int MAXIMUM_AGE = 85;
-        private const int DAYS_IN_A_YEAR = 365;
+        private const int NAME_LIMIT = 10;
         private Random random = new();
 
         /// <summary>
@@ -25,8 +25,9 @@ namespace CodingAssessment.Refactor
             {
                 try
                 {
-                    string name = GenerateRandomPersonName();
-                    people.Add(CreatePerson(name, null, null));
+                    string firstName = GenerateRandomFirstName();
+                    string lastName = GenerateRandomLastName();
+                    people.Add(CreatePerson(firstName, lastName, null, null));
                 }
                 catch (Exception e)
                 {
@@ -40,15 +41,17 @@ namespace CodingAssessment.Refactor
         /// <summary>
         /// Create a person with optional minimum and maximum age, if left out, it will use the default MINIMUM_AGE = 18 and MAXIMUM_AGE = 85
         /// </summary>
-        /// <param name="name"></param>
+        /// <param name="firstName"></param>
         /// <param name="minimumAge"></param>
         /// <param name="maximumAge"></param>
         /// <returns></returns>
-        public Person CreatePerson(string name, int? minimumAge, int? maximumAge)
+        public Person CreatePerson(string firstName, string lastName, int? minimumAge, int? maximumAge)
         {
             int minAge = minimumAge.HasValue ? minimumAge.Value : MINIMUM_AGE;
             int maxAge = maximumAge.HasValue ? maximumAge.Value : MAXIMUM_AGE;
-            return new Person(name, DateTime.UtcNow.Subtract(new TimeSpan(random.Next(minAge, maxAge) * DAYS_IN_A_YEAR, 0, 0, 0)));
+            int randomAge = random.Next(minAge + 1, maxAge);
+            DateTime birthdate = DateTime.UtcNow.AddYears(-randomAge);
+            return new Person(firstName, lastName, birthdate);
         }
 
         /// <summary>
@@ -58,7 +61,7 @@ namespace CodingAssessment.Refactor
         /// <returns></returns>
         public IEnumerable<Person> GetPeopleWithSpecificName(IEnumerable<Person> people, string name)
         {
-            return people.Where(x => x.Name == name);
+            return people.Where(x => x.FirstName == name);
         }
 
         /// <summary>
@@ -72,33 +75,58 @@ namespace CodingAssessment.Refactor
             return people.Where(x => x.Age >= age);
         }
 
-        public string GetMarried(Person p, string lastName)
+        /// <summary>
+        /// Gets the name of a married person
+        /// </summary>
+        /// <param name="person"></param>
+        /// <returns></returns>
+        public string GetMarried(Person person)
         {
-            if (lastName.Contains("test"))
-                return p.Name;
-            if ((p.Name.Length + lastName).Length > 255)
+            if (person == null)
             {
-                (p.Name + " " + lastName).Substring(0, 255);
+                return string.Empty;
             }
 
-            return p.Name + " " + lastName;
+            if (person.LastName.ToUpper().Contains("TEST"))
+            {
+                return person.FirstName;
+            }
+
+            if ($"{person.FirstName} {person.LastName}".Length > NAME_LIMIT)
+            {
+                return $"{person.FirstName} {person.LastName}";
+            }
+
+            return string.Empty;
         }
 
         #region Private Methods
 
         /// <summary>
-        /// Create a random person name
+        /// Create a random first name
         /// </summary>
         /// <returns></returns>
-        private string GenerateRandomPersonName()
+        private string GenerateRandomFirstName()
         {
             string[] maleNames = new string[] { "Alucard", "Leon", "Dave", "Don", "Bob" };
             string[] femaleNames = new string[] { "Bella", "Chien", "Catriona", "Heart", "Betty" };
             List<string> allNames = maleNames.Concat(femaleNames).ToList();
 
-            string name = allNames[random.Next(0, allNames.Count - 1)];
+            string firstName = allNames[random.Next(0, allNames.Count - 1)];
 
-            return name;
+            return firstName;
+        }
+
+        /// <summary>
+        /// Create a random last name
+        /// </summary>
+        /// <returns></returns>
+        private string GenerateRandomLastName()
+        {
+            string[] lastNames = new string[] { "Gates", "Jobs", "Cave", "Jordan", "Sins", "Test" };
+            string lastName = lastNames[random.Next(0, lastNames.Length - 1)];
+
+            return lastName;
         }
 
         #endregion
