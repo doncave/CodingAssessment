@@ -39,7 +39,7 @@ namespace Tests
             var result = birthingUnit.GetPeopleOlderThan(bobs, 30);
 
             Assert.NotNull(result);
-            Assert.All(result, person => Assert.True(person.Name == "Bob"));
+            Assert.All(result, person => Assert.True(person.FirstName == "Bob"));
             Assert.All(result, person => Assert.True(person.Age >= 30));
         }
     }

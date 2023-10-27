@@ -58,7 +58,7 @@ namespace CodingAssessment.Refactor
         /// <returns></returns>
         public IEnumerable<Person> GetPeopleWithSpecificName(IEnumerable<Person> people, string name)
         {
-            return people.Where(x => x.Name == name);
+            return people.Where(x => x.FirstName == name);
         }
 
         /// <summary>
@@ -75,13 +75,13 @@ namespace CodingAssessment.Refactor
         public string GetMarried(Person p, string lastName)
         {
             if (lastName.Contains("test"))
-                return p.Name;
-            if ((p.Name.Length + lastName).Length > 255)
+                return p.FirstName;
+            if ((p.FirstName.Length + lastName).Length > 255)
             {
-                (p.Name + " " + lastName).Substring(0, 255);
+                (p.FirstName + " " + lastName).Substring(0, 255);
             }
 
-            return p.Name + " " + lastName;
+            return p.FirstName + " " + lastName;
         }
 
         #region Private Methods

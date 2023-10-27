@@ -5,7 +5,8 @@ namespace ReFactor
     public class Person
     {
         private static readonly DateTimeOffset Under16 = DateTimeOffset.UtcNow.AddYears(-15);
-        public string Name { get; private set; }
+        public string FirstName { get; private set; }
+        public string LastName { get; private set; }
         public DateTimeOffset DOB { get; private set; }
 
         public int Age {
@@ -26,13 +27,13 @@ namespace ReFactor
 
         #region Constructors
 
-        public Person(string name) : this(name, Under16.Date)
+        public Person(string firstName) : this(firstName, Under16.Date)
         {
         }
 
-        public Person(string name, DateTime dob)
+        public Person(string firstName, DateTime dob)
         {
-            Name = name;
+            FirstName = firstName;
             DOB = dob;
         }
 
