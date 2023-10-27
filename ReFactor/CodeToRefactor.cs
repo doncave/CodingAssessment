@@ -7,7 +7,6 @@ namespace CodingAssessment.Refactor
 {
     public class BirthingUnit
     {
-        private List<Person> _people = new();
         private const int MINIMUM_AGE = 18;
         private const int MAXIMUM_AGE = 85;
         private const int DAYS_IN_A_YEAR = 365;
@@ -22,12 +21,13 @@ namespace CodingAssessment.Refactor
         /// <exception cref="Exception"></exception>
         public List<Person> GeneratePeople(int noOfPeopleToBeCreated)
         {
+            List<Person> people = new();
             for (int j = 0; j < noOfPeopleToBeCreated; j++)
             {
                 try
                 {
                     string name = GenerateRandomPersonName();
-                    _people.Add(CreatePerson(name));
+                    people.Add(CreatePerson(name, null, null));
                 }
                 catch (Exception e)
                 {
@@ -35,30 +35,42 @@ namespace CodingAssessment.Refactor
                     Console.WriteLine($"Something failed in user creation: {e.Message}");
                 }
             }
-            return _people;
+            return people;
         }
 
         /// <summary>
-        /// Create
+        /// Create a person with optional minimum and maximum age, if left out, it will use the default MINIMUM_AGE = 18 and MAXIMUM_AGE = 85
         /// </summary>
         /// <param name="name"></param>
-        /// <param name="random"></param>
+        /// <param name="minimumAge"></param>
+        /// <param name="maximumAge"></param>
         /// <returns></returns>
-        public Person CreatePerson(string name)
+        public Person CreatePerson(string name, int? minimumAge, int? maximumAge)
         {
-            return new Person(name, DateTime.UtcNow.Subtract(new TimeSpan(random.Next(MINIMUM_AGE, MAXIMUM_AGE) * DAYS_IN_A_YEAR, 0, 0, 0)));
+            int minAge = minimumAge.HasValue ? minimumAge.Value : MINIMUM_AGE;
+            int maxAge = maximumAge.HasValue ? maximumAge.Value : MAXIMUM_AGE;
+            return new Person(name, DateTime.UtcNow.Subtract(new TimeSpan(random.Next(minAge, maxAge) * DAYS_IN_A_YEAR, 0, 0, 0)));
         }
 
         /// <summary>
-        /// Get people with specific name ex. "Bob" either older than 30 or not 
+        /// Get people with specific name ex. "Bob"
         /// </summary>
-        /// <param name="olderThan30"></param>
+        /// <param name="name"></param>
         /// <returns></returns>
-        public IEnumerable<Person> GetSpecificPerson(string name, bool olderThan30)
+        public IEnumerable<Person> GetPeopleWithSpecificName(IEnumerable<Person> people, string name)
         {
-            return olderThan30 
-                ? _people.Where(x => x.Name == name && x.DOB >= DateTime.Now.Subtract(new TimeSpan(30 * DAYS_IN_A_YEAR, 0, 0, 0))) 
-                : _people.Where(x => x.Name == name);
+            return people.Where(x => x.Name == name);
+        }
+
+        /// <summary>
+        /// Get people older than a specific age
+        /// </summary>
+        /// <param name="people"></param>
+        /// <param name="age"></param>
+        /// <returns></returns>
+        public IEnumerable<Person> GetPeopleOlderThan(IEnumerable<Person> people, int age)
+        {
+            return people.Where(x => x.Age >= age);
         }
 
         public string GetMarried(Person p, string lastName)
@@ -81,7 +93,7 @@ namespace CodingAssessment.Refactor
         /// <returns></returns>
         private string GenerateRandomPersonName()
         {
-            // Creates a random Name
+            // Creates a random name
             string name;
             var random = new Random();
             if (random.Next(0, 1) == 0)
